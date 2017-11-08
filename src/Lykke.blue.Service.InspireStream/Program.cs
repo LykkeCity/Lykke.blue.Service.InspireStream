@@ -19,7 +19,7 @@ namespace Lykke.blue.Service.InspireStream
             {
                 var host = new WebHostBuilder()
                     .UseKestrel()
-                    .UseUrls("http://localhost:5001")
+                    .UseUrls("http://*:5000")
                     .UseContentRoot(Directory.GetCurrentDirectory())
                     .UseStartup<Startup>()
                     .UseApplicationInsights()
