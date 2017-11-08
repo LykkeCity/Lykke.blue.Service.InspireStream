@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Lykke.blue.Service.InspireStream.AzureRepositories</AssemblyName>
+    <RootNamespace>Lykke.blue.Service.InspireStream.AzureRepositories</RootNamespace>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Lykke.AzureStorage" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lykke.blue.Service.InspireStream.Core\Lykke.blue.Service.InspireStream.Core.csproj" />
+  </ItemGroup>
+
+</Project>
