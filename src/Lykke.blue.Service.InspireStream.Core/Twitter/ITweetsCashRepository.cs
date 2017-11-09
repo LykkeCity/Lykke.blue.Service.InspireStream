@@ -7,6 +7,6 @@ namespace Lykke.blue.Service.InspireStream.Core.Twitter
         Task<string> RegisterAsync(ITweetCash tweetCash);
         Task CreateAsync(ITweetCash tweetCash);
         Task<IEnumerable<ITweetCash>> GetAsync(string accountId);
-        Task CreateOrUpdateAsync(ITweetCash tweetCash);
+        Task CreateOrUpdateAsync(IEnumerable<ITweetCash> tweetCash);
     }
 }

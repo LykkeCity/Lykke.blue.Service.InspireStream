@@ -16,7 +16,6 @@ namespace Lykke.blue.Service.InspireStream.Controllers
     [Route("api/tweetCash")]
     public class TweetCashController : Controller
     {
-
         private readonly ITweetsCashRepository _tweetCashRepository;
         private readonly ITwitterAppAccountRepository _twitterAppAccountRepository;
         private readonly TwitterSettings _twitterSettings;

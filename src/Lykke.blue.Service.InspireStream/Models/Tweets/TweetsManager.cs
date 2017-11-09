@@ -11,7 +11,8 @@ namespace Lykke.blue.Service.InspireStream.Models.Tweets
 {
     public static class TweetsManager
     {
-        public static List<ITweetCash> GetTweetsByQuery(SearchTweetsParameters searchParameters, ITwitterAppAccount account)
+        public static IEnumerable<ITweetCash> GetTweetsByQuery(SearchTweetsParameters searchParameters,
+                                                               ITwitterAppAccount account)
         {
             Auth.SetUserCredentials(account.ConsumerKey, account.ConsumerSecret,
                                    account.AccessToken, account.AccessTokenSecret);
@@ -24,6 +25,8 @@ namespace Lykke.blue.Service.InspireStream.Models.Tweets
 
             tweets?.ForEach(t => tweetsToShow.Add(new TweetCash()
             {
+                PartitionKey = TweetCash.GeneratePartitionKey(account.Id),
+                RowKey = TweetCash.GenerateRowKey(t.IdStr),
                 TweetId = t.IdStr,
                 Title = t.Text,
                 Author = t.CreatedBy.Name,
@@ -37,17 +40,15 @@ namespace Lykke.blue.Service.InspireStream.Models.Tweets
             return tweetsToShow;
         }
 
-        public static async Task<List<ITweetCash>> GetTweetsCash(ITweetsCashRepository tweetCashRepository, string accountId)
+        public static async Task<List<ITweetCash>> GetTweetsCash(ITweetsCashRepository tweetCashRepository,
+                                                                 string accountId)
         {
             return (await tweetCashRepository.GetAsync(accountId)).ToList();
         }
 
-        public static async Task SaveTweetsCash(ITweetsCashRepository tweetCashRepository, List<ITweetCash> tweets)
+        public static async Task SaveTweetsCash(ITweetsCashRepository tweetCashRepository, IEnumerable<ITweetCash> tweets)
         {
-            foreach (ITweetCash tweet in tweets)
-            {
-                await tweetCashRepository.CreateOrUpdateAsync(tweet);
-            }
+            await tweetCashRepository.CreateOrUpdateAsync(tweets);
         }
     }
 }

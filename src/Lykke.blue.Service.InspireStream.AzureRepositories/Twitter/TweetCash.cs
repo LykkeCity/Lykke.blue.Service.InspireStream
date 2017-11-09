@@ -35,7 +35,7 @@ namespace Lykke.blue.Service.InspireStream.AzureRepositories.Twitter
             return accountId;
         }
 
-        internal static string GenerateRowKey(string id)
+        public static string GenerateRowKey(string id)
         {
             return id;
         }
