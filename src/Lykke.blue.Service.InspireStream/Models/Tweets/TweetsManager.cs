@@ -42,11 +42,11 @@ namespace Lykke.blue.Service.InspireStream.Models.Tweets
             return (await tweetCashRepository.GetAsync(accountId)).ToList();
         }
 
-        public static void SaveTweetsCash(ITweetsCashRepository tweetCashRepository, List<ITweetCash> tweets)
+        public static async Task SaveTweetsCash(ITweetsCashRepository tweetCashRepository, List<ITweetCash> tweets)
         {
             foreach (ITweetCash tweet in tweets)
             {
-                tweetCashRepository.CreateOrUpdateAsync(tweet);
+                await tweetCashRepository.CreateOrUpdateAsync(tweet);
             }
         }
     }

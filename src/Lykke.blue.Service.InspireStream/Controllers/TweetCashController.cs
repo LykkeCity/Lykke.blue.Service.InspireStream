@@ -73,8 +73,9 @@ namespace Lykke.blue.Service.InspireStream.Controllers
                 if (tweetsToShow.Count > 0)
                 {
                     twitterAppAccount.LastSyncDate = DateTime.UtcNow;
+
                     await _twitterAppAccountRepository.UpdateAsync(twitterAppAccount);
-                    TweetsManager.SaveTweetsCash(_tweetCashRepository, tweets);
+                    await TweetsManager.SaveTweetsCash(_tweetCashRepository, tweets);
                 }
                 else
                 {
