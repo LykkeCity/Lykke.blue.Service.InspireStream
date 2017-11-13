@@ -1,5 +1,7 @@
 ﻿using AzureStorage;
+using Lykke.AzureStorage.Tables.Paging;
 using Lykke.blue.Service.InspireStream.Core.Twitter;
+using Microsoft.WindowsAzure.Storage.Table;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,11 +35,11 @@ namespace Lykke.blue.Service.InspireStream.AzureRepositories.Twitter
             await _tableStorage.InsertOrReplaceAsync(tweetsCash.Select(t => new TweetCash()
             {
                 PartitionKey = t.AccountId,
-                RowKey = t.TweetId,
+                RowKey = TweetCash.GenerateRowKey(t.Date, t.TweetId),
                 Title = t.Title,
                 TweetId = t.TweetId,
                 UserImage = t.UserImage,
-                Date = t.Date,
+                Date = t.Date.ToUniversalTime(),
                 Author = t.Author,
                 TweetImage = t.TweetImage,
                 AccountId = t.AccountId
@@ -46,8 +48,18 @@ namespace Lykke.blue.Service.InspireStream.AzureRepositories.Twitter
 
         public async Task<IEnumerable<ITweetCash>> GetAsync(string accountId)
         {
-            var partitionkey = TweetCash.GeneratePartitionKey(accountId);
-            return await _tableStorage.GetDataAsync(partitionkey);
+            var partitionKeyCond = TableQuery.GenerateFilterCondition(nameof(TweetCash.PartitionKey),
+                            QueryComparisons.Equal, TweetCash.GeneratePartitionKey(accountId));
+
+            return await _tableStorage.ExecuteQueryWithPaginationAsync(
+                new TableQuery<TweetCash>()
+                {
+                    FilterString = partitionKeyCond
+                },
+               new PagingInfo()
+               {
+                   ElementCount = 1000
+               });
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Lykke.blue.Service.InspireStream.Core.Twitter;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
+using System.Globalization;
 
 namespace Lykke.blue.Service.InspireStream.AzureRepositories.Twitter
 {
@@ -19,12 +20,12 @@ namespace Lykke.blue.Service.InspireStream.AzureRepositories.Twitter
             return new TweetCash
             {
                 PartitionKey = GeneratePartitionKey(src.AccountId),
-                RowKey = GenerateRowKey(src.TweetId),
+                RowKey = GenerateRowKey(src.Date, src.TweetId),
                 TweetId = src.TweetId,
                 Title = src.Title,
                 UserImage = src.UserImage,
                 TweetImage = src.TweetImage,
-                Date = src.Date,
+                Date = src.Date.ToUniversalTime(),
                 Author = src.Author,
                 AccountId = src.AccountId
             };
@@ -35,9 +36,16 @@ namespace Lykke.blue.Service.InspireStream.AzureRepositories.Twitter
             return accountId;
         }
 
-        public static string GenerateRowKey(string id)
+        public static string GenerateRowKey(DateTime tweetDate, string tweetId)
         {
-            return id;
+            var inverseTimeKey = DateTime
+                            .MaxValue
+                            .Subtract(tweetDate.ToUniversalTime())
+                            .TotalMilliseconds
+                            .ToString(CultureInfo.InvariantCulture);
+            return string.Format("{0}-{1}",
+                                     inverseTimeKey,
+                                     tweetId);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Lykke.blue.Service.InspireStream.Models.Tweets
             tweets?.ForEach(t => tweetsToShow.Add(new TweetCash()
             {
                 PartitionKey = TweetCash.GeneratePartitionKey(account.Id),
-                RowKey = TweetCash.GenerateRowKey(t.IdStr),
+                RowKey = TweetCash.GenerateRowKey(t.CreatedAt, t.IdStr),
                 TweetId = t.IdStr,
                 Title = t.Text,
                 Author = t.CreatedBy.Name,

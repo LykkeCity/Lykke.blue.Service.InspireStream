@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
 namespace Lykke.blue.Service.InspireStream.Controllers
@@ -33,7 +34,7 @@ namespace Lykke.blue.Service.InspireStream.Controllers
         }
         DateTime lastUpdatetweets = DateTime.Now.AddMinutes(-15);
 
-        [HttpGet("")]
+        [HttpGet()]
         [SwaggerOperation("GetTweets")]
         [ProducesResponseType(typeof(IEnumerable<TweetsResponseModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -53,12 +54,16 @@ namespace Lykke.blue.Service.InspireStream.Controllers
                 searchParameters = new SearchTweetsParameters(model.SearchQuery)
                 {
                     MaximumNumberOfResults = model.MaxResult,
-                    Until = model.UntilDate
+                    Until = model.UntilDate,
+                    Lang = LanguageFilter.English,
                 };
             }
             else
             {
-                searchParameters = new SearchTweetsParameters(model.SearchQuery);
+                searchParameters = new SearchTweetsParameters(model.SearchQuery)
+                {
+                    Lang = LanguageFilter.English,
+                };
             }
 
             List<TweetsResponseModel> tweetsToShow = new List<TweetsResponseModel>();
@@ -88,9 +93,9 @@ namespace Lykke.blue.Service.InspireStream.Controllers
             }
 
             if (model.PageNumber > 0 && model.PageSize > 0)
-                return Ok(tweetsToShow.OrderByDescending(t => t.Date).Skip((model.PageNumber - 1) * model.PageSize).Take(model.PageSize).AsEnumerable());
+                return Ok(tweetsToShow.OrderByDescending(t => t.Date).Skip((model.PageNumber - 1) * model.PageSize).Take(model.PageSize));
 
-            return Ok(tweetsToShow.OrderByDescending(t => t.Date).AsEnumerable());
+            return Ok(tweetsToShow.OrderByDescending(t => t.Date));
         }
     }
 }

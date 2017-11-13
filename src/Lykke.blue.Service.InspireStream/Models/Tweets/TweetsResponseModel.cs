@@ -22,7 +22,7 @@ namespace Lykke.blue.Service.InspireStream.Models.Tweets
                 Title = src.Title,
                 UserImage = src.UserImage,
                 TweetImage = src.TweetImage,
-                Date = src.Date,
+                Date = src.Date.ToUniversalTime(),
                 Author = src.Author,
                 AccountId = src.AccountId
             };
