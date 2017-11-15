@@ -28,7 +28,7 @@ namespace Lykke.blue.Service.InspireStream.Models.Tweets
                 PartitionKey = TweetCash.GeneratePartitionKey(account.Id),
                 RowKey = TweetCash.GenerateRowKey(t.CreatedAt, t.IdStr),
                 TweetId = t.IdStr,
-                Title = t.Text,
+                Title = t.FullText,
                 Author = t.CreatedBy.Name,
                 Date = t.CreatedAt,
                 UserImage = t.CreatedBy.ProfileImageUrl,
