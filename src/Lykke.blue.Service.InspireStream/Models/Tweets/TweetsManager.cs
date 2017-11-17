@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -28,11 +29,11 @@ namespace Lykke.blue.Service.InspireStream.Models.Tweets
                 PartitionKey = TweetCash.GeneratePartitionKey(account.Id),
                 RowKey = TweetCash.GenerateRowKey(t.CreatedAt, t.IdStr),
                 TweetId = t.IdStr,
-                Title = t.FullText,
+                Title = t.Text,
                 Author = t.CreatedBy.Name,
                 Date = t.CreatedAt,
                 UserImage = t.CreatedBy.ProfileImageUrl,
-                TweetImage = t.Media?.Where(i => i.MediaType == "photo").FirstOrDefault()?.MediaURL,
+                TweetImage = t.Media?.FirstOrDefault()?.MediaURL,
                 AccountId = account.Id
             })
             );
