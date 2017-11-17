@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -47,30 +48,32 @@ namespace Lykke.blue.Service.InspireStream.Controllers
                 return NotFound("Account not found");
             }
 
-            SearchTweetsParameters searchParameters;
-
-            if (model.IsExtendedSearch)
-            {
-                searchParameters = new SearchTweetsParameters(model.SearchQuery)
-                {
-                    MaximumNumberOfResults = model.MaxResult,
-                    Until = model.UntilDate,
-                    Lang = LanguageFilter.English,
-                };
-            }
-            else
-            {
-                searchParameters = new SearchTweetsParameters(model.SearchQuery)
-                {
-                    Lang = LanguageFilter.English,
-                };
-            }
-
             List<TweetsResponseModel> tweetsToShow = new List<TweetsResponseModel>();
             TimeSpan defaultMinutes = TimeSpan.FromMinutes(_twitterSettings.DefaultMinutesToCheck);
 
             if (DateTime.UtcNow - twitterAppAccount.LastSyncDate.ToUniversalTime() > defaultMinutes)
             {
+                TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
+
+                SearchTweetsParameters searchParameters;
+
+                if (model.IsExtendedSearch)
+                {
+                    searchParameters = new SearchTweetsParameters(model.SearchQuery)
+                    {
+                        MaximumNumberOfResults = model.MaxResult,
+                        Until = model.UntilDate,
+                        Lang = LanguageFilter.English
+                    };
+                }
+                else
+                {
+                    searchParameters = new SearchTweetsParameters(model.SearchQuery)
+                    {
+                        Lang = LanguageFilter.English
+                    };
+                }
+
                 var tweets = TweetsManager.GetTweetsByQuery(searchParameters, twitterAppAccount);
                 tweetsToShow.AddRange(tweets?.Select(t => TweetsResponseModel.Create(t)));
 
