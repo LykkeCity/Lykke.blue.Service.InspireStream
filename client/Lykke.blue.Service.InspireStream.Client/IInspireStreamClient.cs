@@ -8,5 +8,6 @@ namespace Lykke.blue.Service.InspireStream.Client
     public interface IInspireStreamClient
     {
         Task<IEnumerable<TweetsResponseModel>> GetAsync(TweetsSearchModel model);
+        Task CreateTweeterAccount(TwitterAppAccountRquestModel model);
     }
 }

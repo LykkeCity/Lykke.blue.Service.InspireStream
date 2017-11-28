@@ -1,7 +1,9 @@
 ﻿using Common.Log;
+using Lykke.blue.Service.InspireStream.AzureRepositories.Twitter;
 using Lykke.blue.Service.InspireStream.Core;
 using Lykke.blue.Service.InspireStream.Core.Twitter;
 using Lykke.blue.Service.InspireStream.Models.Tweets;
+using Lykke.blue.Service.InspireStream.Models.TwitterAppAccount;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.SwaggerGen.Annotations;
 using System;
@@ -99,6 +101,23 @@ namespace Lykke.blue.Service.InspireStream.Controllers
                 return Ok(tweetsToShow.OrderByDescending(t => t.Date).Skip((model.PageNumber - 1) * model.PageSize).Take(model.PageSize));
 
             return Ok(tweetsToShow.OrderByDescending(t => t.Date));
+        }
+
+
+        [HttpPut()]
+        [SwaggerOperation("CreateTweetAccount")]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+        public async Task CreatAccount([FromBody]TwitterAppAccountRquestModel model)
+        {
+            await _twitterAppAccountRepository.RegisterAsync(new TwitterAppAccount()
+            {
+                Email = model.Email,
+                ConsumerKey = model.ConsumerKey,
+                AccessToken = model.AccessToken,
+                AccessTokenSecret = model.AccessTokenSecret,
+                ConsumerSecret = model.ConsumerSecret,
+                LastSyncDate = DateTime.Now,
+            });
         }
     }
 }

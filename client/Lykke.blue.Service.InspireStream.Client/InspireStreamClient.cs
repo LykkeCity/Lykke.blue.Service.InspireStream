@@ -47,5 +47,10 @@ namespace Lykke.blue.Service.InspireStream.Client
                 return null;
             }
         }
+
+        public async Task CreateTweeterAccount(TwitterAppAccountRquestModel model)
+        {
+            await _apiClient.CreateTweetAccountAsync(model);
+        }
     }
 }
