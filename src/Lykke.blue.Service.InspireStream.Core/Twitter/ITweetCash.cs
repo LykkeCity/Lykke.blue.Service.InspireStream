@@ -11,5 +11,7 @@ namespace Lykke.blue.Service.InspireStream.Core.Twitter
         DateTime Date { get; set; }
         string Author { get; set; }
         string AccountId { get; set; }
+
+        string TweetJSON { get; set; }
     }
 }

@@ -75,12 +75,12 @@ namespace Lykke.blue.Service.InspireStream.Controllers
                 }
 
                 var tweets = TweetsManager.GetTweetsByQuery(searchParameters, twitterAppAccount);
+
                 tweetsToShow.AddRange(tweets?.Select(t => TweetsResponseModel.Create(t)));
 
                 if (tweetsToShow.Count > 0)
                 {
                     twitterAppAccount.LastSyncDate = DateTime.UtcNow;
-
                     await _twitterAppAccountRepository.UpdateAsync(twitterAppAccount);
                     await TweetsManager.SaveTweetsCash(_tweetCashRepository, tweets);
                 }

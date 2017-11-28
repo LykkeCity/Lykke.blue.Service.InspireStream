@@ -1,5 +1,4 @@
-﻿using Lykke.blue.Service.InspireStream.AzureRepositories.Twitter;
-using Lykke.blue.Service.InspireStream.Core.Twitter;
+﻿using Lykke.blue.Service.InspireStream.Core.Twitter;
 using System;
 
 namespace Lykke.blue.Service.InspireStream.Models.Tweets
@@ -13,6 +12,7 @@ namespace Lykke.blue.Service.InspireStream.Models.Tweets
         public DateTime Date { get; set; }
         public string Author { get; set; }
         public string AccountId { get; set; }
+        public string TweetJSON { get; set; }
 
         public static TweetsResponseModel Create(ITweetCash src)
         {
@@ -24,7 +24,8 @@ namespace Lykke.blue.Service.InspireStream.Models.Tweets
                 TweetImage = src.TweetImage,
                 Date = src.Date.ToUniversalTime(),
                 Author = src.Author,
-                AccountId = src.AccountId
+                AccountId = src.AccountId,
+                TweetJSON = src.TweetJSON
             };
         }
     }

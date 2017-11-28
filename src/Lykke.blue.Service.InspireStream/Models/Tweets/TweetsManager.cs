@@ -1,5 +1,6 @@
 ﻿using Lykke.blue.Service.InspireStream.AzureRepositories.Twitter;
 using Lykke.blue.Service.InspireStream.Core.Twitter;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,6 +25,9 @@ namespace Lykke.blue.Service.InspireStream.Models.Tweets
 
             List<ITweetCash> tweetsToShow = new List<ITweetCash>();
 
+            ITweet tw = tweets.FirstOrDefault();
+
+
             tweets?.ForEach(t => tweetsToShow.Add(new TweetCash()
             {
                 PartitionKey = TweetCash.GeneratePartitionKey(account.Id),
@@ -34,7 +38,8 @@ namespace Lykke.blue.Service.InspireStream.Models.Tweets
                 Date = t.CreatedAt,
                 UserImage = t.CreatedBy.ProfileImageUrl,
                 TweetImage = t.Media?.FirstOrDefault()?.MediaURL,
-                AccountId = account.Id
+                AccountId = account.Id,
+                TweetJSON = JsonConvert.SerializeObject(t.TweetDTO)
             })
             );
 

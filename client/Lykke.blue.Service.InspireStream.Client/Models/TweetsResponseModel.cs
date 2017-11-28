@@ -22,7 +22,7 @@ namespace Lykke.blue.Service.InspireStream.Client.AutorestClient.Models
         /// <summary>
         /// Initializes a new instance of the TweetsResponseModel class.
         /// </summary>
-        public TweetsResponseModel(System.DateTime date, string tweetId = default(string), string title = default(string), string userImage = default(string), string tweetImage = default(string), string author = default(string), string accountId = default(string))
+        public TweetsResponseModel(System.DateTime date, string tweetId = default(string), string title = default(string), string userImage = default(string), string tweetImage = default(string), string author = default(string), string accountId = default(string), string tweetJSON = default(string))
         {
             TweetId = tweetId;
             Title = title;
@@ -31,6 +31,7 @@ namespace Lykke.blue.Service.InspireStream.Client.AutorestClient.Models
             Date = date;
             Author = author;
             AccountId = accountId;
+            TweetJSON = tweetJSON;
             CustomInit();
         }
 
@@ -73,6 +74,11 @@ namespace Lykke.blue.Service.InspireStream.Client.AutorestClient.Models
         /// </summary>
         [JsonProperty(PropertyName = "AccountId")]
         public string AccountId { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "TweetJSON")]
+        public string TweetJSON { get; set; }
 
         /// <summary>
         /// Validate the object.

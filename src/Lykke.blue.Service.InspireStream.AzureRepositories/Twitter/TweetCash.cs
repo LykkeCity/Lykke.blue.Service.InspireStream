@@ -15,6 +15,8 @@ namespace Lykke.blue.Service.InspireStream.AzureRepositories.Twitter
         public string Author { get; set; }
         public string AccountId { get; set; }
 
+        public string TweetJSON { get; set; }
+
         public static TweetCash Create(ITweetCash src)
         {
             return new TweetCash
@@ -27,7 +29,8 @@ namespace Lykke.blue.Service.InspireStream.AzureRepositories.Twitter
                 TweetImage = src.TweetImage,
                 Date = src.Date.ToUniversalTime(),
                 Author = src.Author,
-                AccountId = src.AccountId
+                AccountId = src.AccountId,
+                TweetJSON = src.TweetJSON
             };
         }
 

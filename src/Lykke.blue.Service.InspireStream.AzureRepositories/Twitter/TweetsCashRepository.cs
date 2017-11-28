@@ -42,7 +42,8 @@ namespace Lykke.blue.Service.InspireStream.AzureRepositories.Twitter
                 Date = t.Date.ToUniversalTime(),
                 Author = t.Author,
                 TweetImage = t.TweetImage,
-                AccountId = t.AccountId
+                AccountId = t.AccountId,
+                TweetJSON = t.TweetJSON
             }));
         }
 
