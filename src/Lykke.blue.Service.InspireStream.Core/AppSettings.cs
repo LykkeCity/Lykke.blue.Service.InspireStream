@@ -20,7 +20,7 @@
 
     public class TwitterSettings
     {
-        public int DefaultMinutesToCheck { get; set; }
+        public double DefaultMinutesToCheck { get; set; }
     }
 
     public class SlackNotificationsSettings
