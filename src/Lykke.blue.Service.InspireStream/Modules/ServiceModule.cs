@@ -2,10 +2,12 @@
 using Autofac.Extensions.DependencyInjection;
 using AzureStorage.Tables;
 using Common.Log;
+using Lykke.blue.Service.InspireStream.Abstractions;
 using Lykke.blue.Service.InspireStream.AzureRepositories.Twitter;
 using Lykke.blue.Service.InspireStream.Core;
 using Lykke.blue.Service.InspireStream.Core.Services;
 using Lykke.blue.Service.InspireStream.Core.Twitter;
+using Lykke.blue.Service.InspireStream.Models.Tweets;
 using Lykke.blue.Service.InspireStream.Services;
 using Lykke.Logs;
 using Lykke.SettingsReader;
@@ -33,10 +35,8 @@ namespace Lykke.blue.Service.InspireStream.Modules
                .As<ILog>()
                .SingleInstance();
 
-            //builder.RegisterInstance<ITweetsCashRepository>(
-            //  new TweetsCashRepository(
-            //      new AzureTableStorage<TweetCash>(_settings.CurrentValue.Db.RepoConnectionString, "TweetsCash",
-            //          _log)));
+            builder.RegisterType<TweetsManager>()
+                .As<ITweetsManager>();
 
             builder.RegisterInstance<ITweetsCashRepository>(
                new TweetsCashRepository(

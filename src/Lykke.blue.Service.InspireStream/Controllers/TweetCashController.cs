@@ -1,4 +1,5 @@
 ﻿using Common.Log;
+using Lykke.blue.Service.InspireStream.Abstractions;
 using Lykke.blue.Service.InspireStream.AzureRepositories.Twitter;
 using Lykke.blue.Service.InspireStream.Core;
 using Lykke.blue.Service.InspireStream.Core.Twitter;
@@ -24,20 +25,22 @@ namespace Lykke.blue.Service.InspireStream.Controllers
         private readonly ITwitterAppAccountRepository _twitterAppAccountRepository;
         private readonly TwitterSettings _twitterSettings;
         private readonly ILog _log;
+        private readonly ITweetsManager _tweetsManager;
 
         public TweetCashController(ITweetsCashRepository tweetCashRepository,
                                    ITwitterAppAccountRepository twitterAppAccountRepository,
                                    TwitterSettings twitterSettings,
-                                   ILog log)
+                                   ILog log, ITweetsManager tweetsManager)
         {
             _tweetCashRepository = tweetCashRepository;
             _twitterAppAccountRepository = twitterAppAccountRepository;
             _twitterSettings = twitterSettings;
             _log = log;
+            _tweetsManager = tweetsManager;
         }
         DateTime lastUpdatetweets = DateTime.Now.AddMinutes(-15);
 
-        [HttpGet()]
+        [HttpPost]
         [SwaggerOperation("GetTweets")]
         [ProducesResponseType(typeof(IEnumerable<TweetsResponseModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -76,7 +79,7 @@ namespace Lykke.blue.Service.InspireStream.Controllers
                     };
                 }
 
-                var tweets = TweetsManager.GetTweetsByQuery(searchParameters, twitterAppAccount);
+                var tweets = _tweetsManager.GetTweetsByQuery(searchParameters, twitterAppAccount);
 
                 tweetsToShow.AddRange(tweets?.Select(t => TweetsResponseModel.Create(t)));
 
@@ -84,7 +87,7 @@ namespace Lykke.blue.Service.InspireStream.Controllers
                 {
                     twitterAppAccount.LastSyncDate = DateTime.UtcNow;
                     await _twitterAppAccountRepository.UpdateAsync(twitterAppAccount);
-                    await TweetsManager.SaveTweetsCash(_tweetCashRepository, tweets);
+                    await _tweetsManager.SaveTweetsCash(_tweetCashRepository, tweets);
                 }
                 else
                 {
@@ -93,7 +96,7 @@ namespace Lykke.blue.Service.InspireStream.Controllers
             }
             else
             {
-                tweetsToShow.AddRange((await TweetsManager.GetTweetsCash(_tweetCashRepository, twitterAppAccount.Id))
+                tweetsToShow.AddRange((await _tweetsManager.GetTweetsCash(_tweetCashRepository, twitterAppAccount.Id))
                                                           .Select(t => TweetsResponseModel.Create(t)));
             }
 

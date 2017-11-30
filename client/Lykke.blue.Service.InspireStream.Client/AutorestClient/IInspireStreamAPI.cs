@@ -50,7 +50,7 @@ namespace Lykke.blue.Service.InspireStream.Client.AutorestClient
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<TweetsResponseModel>>> GetTweetsWithHttpMessagesAsync(TweetsSearchModel model = default(TweetsSearchModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<int?>> CreateTweetAccountWithHttpMessagesAsync(TwitterAppAccountRquestModel model = default(TwitterAppAccountRquestModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name='model'>
         /// </param>
@@ -60,7 +60,7 @@ namespace Lykke.blue.Service.InspireStream.Client.AutorestClient
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<int?>> CreateTweetAccountWithHttpMessagesAsync(TwitterAppAccountRquestModel model = default(TwitterAppAccountRquestModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<IList<TweetsResponseModel>>> GetTweetsWithHttpMessagesAsync(TweetsSearchModel model = default(TweetsSearchModel), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 }

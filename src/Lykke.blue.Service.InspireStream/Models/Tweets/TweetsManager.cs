@@ -1,4 +1,5 @@
-﻿using Lykke.blue.Service.InspireStream.AzureRepositories.Twitter;
+﻿using Lykke.blue.Service.InspireStream.Abstractions;
+using Lykke.blue.Service.InspireStream.AzureRepositories.Twitter;
 using Lykke.blue.Service.InspireStream.Core.Twitter;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ using Tweetinvi.Parameters;
 
 namespace Lykke.blue.Service.InspireStream.Models.Tweets
 {
-    public static class TweetsManager
+    public class TweetsManager : ITweetsManager
     {
-        public static IEnumerable<ITweetCash> GetTweetsByQuery(SearchTweetsParameters searchParameters,
+        public IEnumerable<ITweetCash> GetTweetsByQuery(SearchTweetsParameters searchParameters,
                                                                ITwitterAppAccount account)
         {
             Auth.SetUserCredentials(account.ConsumerKey, account.ConsumerSecret,
@@ -46,13 +47,13 @@ namespace Lykke.blue.Service.InspireStream.Models.Tweets
             return tweetsToShow;
         }
 
-        public static async Task<List<ITweetCash>> GetTweetsCash(ITweetsCashRepository tweetCashRepository,
+        public async Task<List<ITweetCash>> GetTweetsCash(ITweetsCashRepository tweetCashRepository,
                                                                  string accountId)
         {
             return (await tweetCashRepository.GetAsync(accountId)).ToList();
         }
 
-        public static async Task SaveTweetsCash(ITweetsCashRepository tweetCashRepository, IEnumerable<ITweetCash> tweets)
+        public async Task SaveTweetsCash(ITweetsCashRepository tweetCashRepository, IEnumerable<ITweetCash> tweets)
         {
             await tweetCashRepository.CreateOrUpdateAsync(tweets);
         }

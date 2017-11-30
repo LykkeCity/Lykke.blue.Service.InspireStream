@@ -44,32 +44,6 @@ namespace Lykke.blue.Service.InspireStream.Client.AutorestClient
             /// </param>
             /// <param name='model'>
             /// </param>
-            public static IList<TweetsResponseModel> GetTweets(this IInspireStreamAPI operations, TweetsSearchModel model = default(TweetsSearchModel))
-            {
-                return operations.GetTweetsAsync(model).GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='model'>
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<IList<TweetsResponseModel>> GetTweetsAsync(this IInspireStreamAPI operations, TweetsSearchModel model = default(TweetsSearchModel), CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.GetTweetsWithHttpMessagesAsync(model, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='model'>
-            /// </param>
             public static int? CreateTweetAccount(this IInspireStreamAPI operations, TwitterAppAccountRquestModel model = default(TwitterAppAccountRquestModel))
             {
                 return operations.CreateTweetAccountAsync(model).GetAwaiter().GetResult();
@@ -86,6 +60,32 @@ namespace Lykke.blue.Service.InspireStream.Client.AutorestClient
             public static async Task<int?> CreateTweetAccountAsync(this IInspireStreamAPI operations, TwitterAppAccountRquestModel model = default(TwitterAppAccountRquestModel), CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.CreateTweetAccountWithHttpMessagesAsync(model, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='model'>
+            /// </param>
+            public static IList<TweetsResponseModel> GetTweets(this IInspireStreamAPI operations, TweetsSearchModel model = default(TweetsSearchModel))
+            {
+                return operations.GetTweetsAsync(model).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='model'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<IList<TweetsResponseModel>> GetTweetsAsync(this IInspireStreamAPI operations, TweetsSearchModel model = default(TweetsSearchModel), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.GetTweetsWithHttpMessagesAsync(model, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
