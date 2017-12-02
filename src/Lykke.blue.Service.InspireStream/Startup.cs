@@ -91,7 +91,7 @@ namespace Lykke.blue.Service.InspireStream
             }
             catch (Exception ex)
             {
-                Log?.WriteFatalErrorAsync(nameof(Startup), nameof(ConfigureServices), "", ex).Wait();
+                Log?.WriteFatalErrorAsync(nameof(Startup), nameof(Configure), "", ex).Wait();
                 throw;
             }
         }
@@ -130,8 +130,6 @@ namespace Lykke.blue.Service.InspireStream
         {
             try
             {
-                // NOTE: Service can't recieve and process requests here, so you can destroy all resources
-
                 if (Log != null)
                 {
                     await Log.WriteMonitorAsync("", "", "Terminating");
@@ -171,7 +169,7 @@ namespace Lykke.blue.Service.InspireStream
             if (!string.IsNullOrEmpty(dbLogConnectionString) && !(dbLogConnectionString.StartsWith("${") && dbLogConnectionString.EndsWith("}")))
             {
                 var persistenceManager = new LykkeLogToAzureStoragePersistenceManager(
-                    AzureTableStorage<LogEntity>.Create(dbLogConnectionStringManager, "LykkeServiceLog", consoleLogger),
+                    AzureTableStorage<LogEntity>.Create(dbLogConnectionStringManager, "InspireStreamServiceLog", consoleLogger),
                     consoleLogger);
 
                 var slackNotificationsManager = new LykkeLogToAzureSlackNotificationsManager(slackService, consoleLogger);
