@@ -19,7 +19,6 @@ namespace Lykke.blue.Service.InspireStream.Modules
         private readonly IReloadingManager<InspireStreamSettings> _settings;
         private readonly ILog _log;
         private readonly IServiceCollection _services;
-        //private readonly TwitterSettings _twitterSettings;
 
         public ServiceModule(IReloadingManager<InspireStreamSettings> settings, ILog log)
         {
@@ -53,13 +52,6 @@ namespace Lykke.blue.Service.InspireStream.Modules
                 .SingleInstance();
 
             builder.RegisterInstance(_settings.CurrentValue.TwitterSettings);
-
-            builder.RegisterType<StartupManager>()
-                .As<IStartupManager>();
-
-            builder.RegisterType<ShutdownManager>()
-                .As<IShutdownManager>();
-
             builder.Populate(_services);
         }
     }

@@ -19,6 +19,7 @@ using Tweetinvi.Parameters;
 namespace Lykke.blue.Service.InspireStream.Controllers
 {
     [Route("api/tweetCash")]
+    [Produces("application/json")]
     public class TweetCashController : Controller
     {
         private readonly ITweetsCashRepository _tweetCashRepository;
@@ -38,12 +39,16 @@ namespace Lykke.blue.Service.InspireStream.Controllers
             _log = log;
             _tweetsManager = tweetsManager;
         }
-        DateTime lastUpdatetweets = DateTime.Now.AddMinutes(-15);
 
+        /// <summary>
+        /// Create new twitter application account
+        /// </summary>
+        /// <param name="model">
+        /// Twitter search model by which is searched for tweets
+        /// </param>
         [HttpPost]
         [SwaggerOperation("GetTweets")]
         [ProducesResponseType(typeof(IEnumerable<TweetsResponseModel>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetTweetsByAdditionalParameters([FromBody]TweetsSearchModel model)
         {
@@ -106,7 +111,12 @@ namespace Lykke.blue.Service.InspireStream.Controllers
             return Ok(tweetsToShow.OrderByDescending(t => t.Date));
         }
 
-
+        /// <summary>
+        /// Create new twitter application account
+        /// </summary>
+        /// <param name="model">
+        /// Twitter app account rquest model by which we create the twitter application account
+        /// </param>
         [HttpPut()]
         [SwaggerOperation("CreateTweetAccount")]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]

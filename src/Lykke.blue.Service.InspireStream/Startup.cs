@@ -86,7 +86,6 @@ namespace Lykke.blue.Service.InspireStream
                 app.UseStaticFiles();
 
                 appLifetime.ApplicationStarted.Register(() => StartApplication().Wait());
-                appLifetime.ApplicationStopping.Register(() => StopApplication().Wait());
                 appLifetime.ApplicationStopped.Register(() => CleanUp().Wait());
             }
             catch (Exception ex)
@@ -100,28 +99,11 @@ namespace Lykke.blue.Service.InspireStream
         {
             try
             {
-                await ApplicationContainer.Resolve<IStartupManager>().StartAsync();
                 await Log.WriteMonitorAsync("", "", "Started");
             }
             catch (Exception ex)
             {
                 await Log.WriteFatalErrorAsync(nameof(Startup), nameof(StartApplication), "", ex);
-                throw;
-            }
-        }
-
-        private async Task StopApplication()
-        {
-            try
-            {
-                await ApplicationContainer.Resolve<IShutdownManager>().StopAsync();
-            }
-            catch (Exception ex)
-            {
-                if (Log != null)
-                {
-                    await Log.WriteFatalErrorAsync(nameof(Startup), nameof(StopApplication), "", ex);
-                }
                 throw;
             }
         }
